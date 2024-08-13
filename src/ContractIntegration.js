@@ -38,19 +38,20 @@ export async function publishArticle(contract, title, contentHash, subscriptionP
   }
 }
 
-export async function buyArticle(contract, articleId, paymentAmount) {
-  try {
-    const tx = await contract.buyArticle(articleId, {
-      value: ethers.utils.parseEther(paymentAmount),
-      gasLimit: 500000,
-    });
-    await tx.wait();
-    console.log('Article purchased successfully!');
-  } catch (error) {
-    console.error('Error purchasing article:', error);
-    throw error;
-  }
+export async function buyArticle(contract, articleId, subscriptionPrice) {
+    try {
+        const tx = await contract.buyArticle(articleId, {
+            value: subscriptionPrice, // Passing the subscription price as value in ETH
+            gasLimit: 500000 // You can adjust the gas limit if necessary
+        });
+        await tx.wait();
+        console.log('Article purchased successfully!');
+    } catch (error) {
+        console.error('Error purchasing article:', error);
+        throw error;
+    }
 }
+
 
 export async function buyCoffee(contract, articleId, amount) {
   try {
