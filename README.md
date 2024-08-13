@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Ales
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ales is a decentralized application (dApp) that allows users to publish and access articles on the blockchain. The platform supports both free and subscription-based content, and readers can support authors by sending cryptocurrency through a "Buy Me a Coffee" feature for free articles.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Blockchain-Powered Article Publishing**: Publish articles directly on the blockchain, ensuring immutability and transparency.
+- **Free and Subscription-Based Content**: Authors can choose to publish articles for free or set a subscription price in ETH.
+- **Reader Support**: Readers can show their support for authors by sending cryptocurrency tips via the "Buy Me a Coffee" button.
+- **Secure and Decentralized**: Leveraging Ethereum smart contracts for secure transactions and content management.
+- **Responsive Design**: Ales is designed to be responsive and accessible on various devices.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React, Tailwind CSS, React Router, React Quill (for rich text editing)
+- **Smart Contracts**: Solidity (Ethereum)
+- **Blockchain Interaction**: ethers.js
+- **Storage**: IPFS via Infura or Pinata for decentralized content storage
+- **Development Tools**: MetaMask, Hardhat, Remix IDE
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js and npm installed on your machine
+- MetaMask browser extension for connecting to Ethereum
+- An Ethereum testnet or mainnet account with some ETH
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the Repository**:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   git clone https://github.com/yourusername/ales.git
+   cd ales
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+2. **Install Dependencies**:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    ```bash
+    npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Environment Setup**:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    Create a .env file in the root directory and add your Infura and Pinata API keys:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    REACT_APP_INFURA_PROJECT_ID=your_infura_project_id
+    REACT_APP_INFURA_PROJECT_SECRET=your_infura_project_secret
+    REACT_APP_PINATA_API_KEY=your_pinata_api_key
+    REACT_APP_PINATA_SECRET_API_KEY=your_pinata_secret_api_key
 
-## Learn More
+4. **Start the Development Server:**:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    ```bash
+    npm start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The application should now be running on http://localhost:3000.
 
-### Code Splitting
+### Usage
+Publishing an Article: Navigate to the "Publish" page, write your article using the editor, and choose whether it's free or subscription-based. Upon submission, the article will be stored on IPFS, and its reference will be recorded on the blockchain.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Viewing Articles: Browse through the available articles on the "Articles" page. Click on an article card to view its details. If it's a free article, you can support the author by sending a tip in ETH.
 
-### Analyzing the Bundle Size
+Buying a Subscription: For subscription-based articles, readers need to pay the specified amount in ETH to unlock the content.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Smart Contract Interaction
+The smart contracts are written in Solidity and deployed on the Ethereum network. You can find the ABI and contract address in the abi folder.
 
-### Making a Progressive Web App
+## Key Functions
+publishArticle: Allows authors to publish articles with a title, content hash (IPFS), subscription price, and free flag.
+buyArticle: Allows users to purchase access to subscription-based articles.
+buyCoffee: Enables readers to send a tip in ETH to the author of a free article.
+getArticle: Fetches the details of a specific article by its ID.
+getArticleCount: Returns the total number of articles published on the platform.
+Contributing
+Contributions are welcome! Please fork the repository and submit a pull request with your changes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-### Advanced Configuration
+## Acknowledgments
+Thanks to the Ethereum and IPFS communities for providing the underlying technology.
+Special thanks to all contributors and users of Ales.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```plaintext
+This `README.md` provides an overview of the Ales dApp, explains how to set it up, and includes instructions for usage, contributing, and acknowledging the open-source community.
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
