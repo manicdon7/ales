@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import {
@@ -7,20 +7,29 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {
-  polygonAmoy,sepolia
-} from "wagmi/chains";
+import { polygon, sepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
   appName: "Ales",
   projectId: "252ad358c903d28a5b6610ef5c98dac9",
-  chains: [polygonAmoy,sepolia],
-  ssr: true, // If your dApp uses server-side rendering (SSR)
+  chains: [polygon, sepolia],
+  ssr: true,
 });
+
 const queryClient = new QueryClient();
 
-const Connect = () => {
+const Connect = ({ onWalletAddressUpdate }) => {
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [connected, setConnected] = useState(false);
+
+  // Effect to handle the update when the wallet is connected
+  useEffect(() => {
+    if (connected && walletAddress) {
+      onWalletAddressUpdate(walletAddress);
+    }
+  }, [connected, walletAddress, onWalletAddressUpdate]);
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
@@ -36,12 +45,23 @@ const Connect = () => {
               mounted,
             }) => {
               const ready = mounted && authenticationStatus !== "loading";
-              const connected =
+              const isConnected =
                 ready &&
                 account &&
                 chain &&
                 (!authenticationStatus ||
                   authenticationStatus === "authenticated");
+
+              // Update states based on connection
+              if (isConnected) {
+                if (!connected || walletAddress !== account?.address) {
+                  setWalletAddress(account?.address);
+                  setConnected(true);
+                }
+              } else if (connected) {
+                setWalletAddress(null);
+                setConnected(false);
+              }
 
               return (
                 <div
@@ -55,10 +75,13 @@ const Connect = () => {
                   })}
                 >
                   {(() => {
-                    if (!connected) {
+                    if (!isConnected) {
                       return (
-                        <div className=" flex justify-center">
-                          <button onClick={openConnectModal} className="text-white text-xs lg:text-base bg-transparent backdrop-filter backdrop-blur-2xl hover:scale-95 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-[#EE99C2] p-3 px-6 rounded-xl md:text-base border-2 brandy-font border-white custom-border-radius flex justify-center items-center">
+                        <div className="flex justify-center">
+                          <button
+                            onClick={openConnectModal}
+                            className="text-white text-xs lg:text-base bg-transparent backdrop-filter backdrop-blur-2xl hover:scale-95 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-[#EE99C2] p-3 px-6 rounded-xl md:text-base border-2 brandy-font border-white custom-border-radius flex justify-center items-center"
+                          >
                             Eth Wallet
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +99,7 @@ const Connect = () => {
                     if (chain?.unsupported) {
                       return (
                         <button
-                          className=" text-white broge-font bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 hover:bg-gradient-to-l hover:shadow-xl p-3 rounded text-[8px] md:text-xs font-medium border-b-2 border-white"
+                          className="text-white broge-font bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 hover:bg-gradient-to-l hover:shadow-xl p-3 rounded text-[8px] md:text-xs font-medium border-b-2 border-white"
                           onClick={openChainModal}
                           type="button"
                         >
@@ -123,7 +146,6 @@ const Connect = () => {
                           {account?.displayName}
                           {account?.displayBalance ? ` (${account.displayBalance})` : ""}
                         </button>
-
                       </div>
                     );
                   })()}

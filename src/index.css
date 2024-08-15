@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One&display=swap');
 
 body {
   margin: 0;
@@ -14,4 +15,32 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.font-bowlby {
+  font-family: "Bowlby One", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.font-anton {
+  font-family: "Anton", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.text-with-glow {
+  /* Add glow effect */
+  text-shadow: 0 0 10px #929292, /* Cyan glow */
+               0 0 20px #263184, /* Cyan glow */
+               0 0 30px #263184, /* Cyan glow */
+               0 0 40px #263184; /* Cyan glow */
+}
+
+.border-glow:hover {
+  box-shadow: 0 0 10px #263184, /* Cyan glow */
+              0 0 10px #263184, /* Cyan glow */
+              0 0 10px #263184, /* Cyan glow */
+              0 0 10px #263184; /* Cyan glow */
+  transition: box-shadow 0.3s ease; /* Smooth transition */
 }

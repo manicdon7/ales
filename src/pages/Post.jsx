@@ -27,11 +27,12 @@ const Post = () => {
     const [subscriptionPrice, setSubscriptionPrice] = useState('');
     const [isFree, setIsFree] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const uploadToIPFS = async (content) => {
         try {
             const added = await ipfsClient.add(content);
-            console.log(added.path);
             return added.path; // IPFS hash
         } catch (error) {
             console.error('Error uploading to IPFS:', error);
@@ -67,6 +68,20 @@ const Post = () => {
         }
     };
 
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedImage(file);
+        }
+    };
+
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+        }
+    };
+
     const handlePublish = async () => {
         if (!window.ethereum) {
             alert("Please install MetaMask to use this feature!");
@@ -97,6 +112,8 @@ const Post = () => {
             setContent('');
             setSubscriptionPrice('');
             setIsFree(true);
+            setSelectedImage(null);
+            setSelectedFile(null);
         } catch (error) {
             console.error('Error publishing article:', error);
             alert('Failed to publish the article.');
@@ -106,25 +123,44 @@ const Post = () => {
     };
 
     return (
-        <div>
-            <Navbar />
-            <div className="post-container">
-                <h1 className="post-title">Publish an Article</h1>
+        <div className="min-h-screen bg-gray-900 text-white">
+            <div className="max-w-4xl mx-auto p-6">
+                <h1 className="text-3xl font-bold mb-6 text-center">Publish an Article</h1>
                 <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter your article title here"
-                    className="post-input"
+                    className="w-full p-3 mb-4 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <ReactQuill
                     value={content}
                     onChange={setContent}
                     placeholder="Write your article content here..."
-                    className="post-editor"
+                    className="mb-4 bg-gray-800 text-gray-300"
+                    theme="snow"
                 />
-                <div className="post-options">
-                    <label className="post-option">
+                <div className="mb-4">
+                    <label className="block text-gray-400">Upload an Image (Optional):</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="w-full mt-2 bg-gray-800 p-3 rounded-md focus:outline-none"
+                    />
+                    {selectedImage && <p className="mt-2 text-sm text-gray-500">Selected Image: {selectedImage.name}</p>}
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-400">Attach a File (Optional):</label>
+                    <input
+                        type="file"
+                        onChange={handleFileUpload}
+                        className="w-full mt-2 bg-gray-800 p-3 rounded-md focus:outline-none"
+                    />
+                    {selectedFile && <p className="mt-2 text-sm text-gray-500">Selected File: {selectedFile.name}</p>}
+                </div>
+                <div className="flex flex-wrap gap-4 mb-6">
+                    <label className="flex items-center text-gray-400">
                         Subscription Price (ETH):
                         <input
                             type="text"
@@ -132,19 +168,24 @@ const Post = () => {
                             onChange={(e) => setSubscriptionPrice(e.target.value)}
                             placeholder="0.0"
                             disabled={isFree}
-                            className="post-input"
+                            className="ml-2 bg-gray-800 p-2 rounded-md focus:outline-none"
                         />
                     </label>
-                    <label className="post-option">
+                    <label className="flex items-center text-gray-400">
                         <input
                             type="checkbox"
                             checked={isFree}
                             onChange={(e) => setIsFree(e.target.checked)}
+                            className="mr-2"
                         />
                         Free Article
                     </label>
                 </div>
-                <button onClick={handlePublish} className="post-button" disabled={loading}>
+                <button
+                    onClick={handlePublish}
+                    className={`w-full p-3 rounded-md font-bold ${loading ? 'bg-blue-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} transition duration-200`}
+                    disabled={loading}
+                >
                     {loading ? 'Publishing...' : 'Publish Article'}
                 </button>
             </div>
