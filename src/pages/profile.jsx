@@ -8,6 +8,8 @@ const Profile = ({ walletAddress }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     if (walletAddress) {
@@ -22,12 +24,12 @@ const Profile = ({ walletAddress }) => {
       if (walletAddress) {
         try {
           const { contract } = await initializeContract();
-          const articleCount = await getArticleCount(contract);
 
+          // Load articles
+          const articleCount = await getArticleCount(contract);
           const fetchedArticles = [];
           for (let i = 1; i <= articleCount; i++) {
             const article = await getArticle(contract, i);
-
             if (article.author.toLowerCase() === walletAddress.toLowerCase()) {
               try {
                 const response = await axios.get(`https://gateway.pinata.cloud/ipfs/${article.contentHash}`);
@@ -36,6 +38,16 @@ const Profile = ({ walletAddress }) => {
                 fetchedArticles.push({ ...article, content: 'Error fetching content' });
               }
             }
+          }
+
+          // Fetch followers and following from decentralized storage
+          try {
+            const socialDataResponse = await axios.get(`https://gateway.pinata.cloud/ipfs/YOUR_JSON_FILE_HASH`);
+            const socialData = socialDataResponse.data;
+            setFollowers(socialData.followers || []);
+            setFollowing(socialData.following || []);
+          } catch (error) {
+            console.error('Error fetching social data:', error);
           }
 
           setArticles(fetchedArticles);
@@ -54,7 +66,7 @@ const Profile = ({ walletAddress }) => {
   }, [walletAddress]);
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className="bg-gray-900 text-white min-h-screen poppins-regular">
       <div className="container mx-auto p-4">
         <div className="flex flex-col items-center">
           {loading ? (
@@ -67,16 +79,31 @@ const Profile = ({ walletAddress }) => {
             </div>
           ) : (
             <>
-              <img
-                src={profilePic}
-                alt="Profile"
-                className="h-48 w-48 rounded-full mb-6 object-cover shadow-lg"
-              />
-              <h1 className="text-3xl font-bold mb-2">
-                {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}` : 'User'}
-              </h1>
-              <p className="text-gray-400 mb-8">Articles posted by you</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="flex flex-col items-center">
+                <img
+                  src={profilePic}
+                  alt="Profile"
+                  className="h-48 w-48 rounded-full mb-6 object-cover shadow-lg"
+                />
+                <h1 className="text-3xl font-bold mb-2">
+                  {walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}` : 'User'}
+                </h1>
+                <div className="flex space-x-8 mt-4">
+                  <div className="text-center">
+                    <h2 className="text-xl font-bold">{followers.length}</h2>
+                    <p className="text-gray-400">Followers</p>
+                  </div>
+                  <div className="text-center">
+                    <h2 className="text-xl font-bold">{following.length}</h2>
+                    <p className="text-gray-400">Following</p>
+                  </div>
+                  <div className="text-center">
+                    <h2 className="text-xl font-bold">{articles.length}</h2>
+                    <p className="text-gray-400">Articles</p>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-10 lg:grid-cols-4 gap-8">
                 {articles.length === 0 ? (
                   <p>No articles posted yet.</p>
                 ) : (

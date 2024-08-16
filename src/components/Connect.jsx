@@ -80,7 +80,7 @@ const Connect = ({ onWalletAddressUpdate }) => {
                         <div className="flex justify-center">
                           <button
                             onClick={openConnectModal}
-                            className="text-white text-xs lg:text-base bg-transparent backdrop-filter backdrop-blur-2xl hover:scale-95 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-[#EE99C2] p-3 px-6 rounded-xl md:text-base border-2 brandy-font border-white custom-border-radius flex justify-center items-center"
+                            className="text-white poppins-regular text-xs lg:text-base bg-transparent backdrop-filter backdrop-blur-2xl hover:scale-95 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-orange-300 p-3 px-6 rounded-xl md:text-base border-2 brandy-font border-white custom-border-radius flex justify-center items-center"
                           >
                             Eth Wallet
                             <svg
@@ -99,7 +99,7 @@ const Connect = ({ onWalletAddressUpdate }) => {
                     if (chain?.unsupported) {
                       return (
                         <button
-                          className="text-white broge-font bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 hover:bg-gradient-to-l hover:shadow-xl p-3 rounded text-[8px] md:text-xs font-medium border-b-2 border-white"
+                          className="text-white poppins-regular broge-font bg-gradient-to-r from-orange-500 via-blue-500 to-green-500 hover:bg-gradient-to-l hover:shadow-xl p-3 rounded text-[8px] md:text-xs font-medium border-b-2 border-white"
                           onClick={openChainModal}
                           type="button"
                         >
@@ -111,7 +111,7 @@ const Connect = ({ onWalletAddressUpdate }) => {
                     return (
                       <div style={{ display: "flex", gap: 12 }}>
                         <button
-                          className="text-white text-xs w-full bg-transparent backdrop-blur-2xl backdrop-filter hover:scale-105 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-[#EE99C2] hover:bg-gradient-to-l p-3 px-2 rounded bricolage-font border-2"
+                          className="text-white poppins-regular text-xs w-full bg-transparent backdrop-blur-2xl backdrop-filter hover:scale-105 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-orange-300 hover:bg-gradient-to-l p-3 px-2 rounded bricolage-font border-2"
                           onClick={openChainModal}
                           type="button"
                         >
@@ -139,7 +139,7 @@ const Connect = ({ onWalletAddressUpdate }) => {
                         </button>
 
                         <button
-                          className="text-white text-xs w-full bg-transparent backdrop-blur-2xl backdrop-filter hover:scale-105 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-[#EE99C2] hover:bg-gradient-to-l p-3 px-2 rounded bricolage-font border-2"
+                          className="text-white text-xs w-full bg-transparent backdrop-blur-2xl backdrop-filter hover:scale-105 transform transition-transform duration-100 hover:shadow-xl bg-gradient-to-r from-[#0C359E] via-blue-600 to-orange-300 hover:bg-gradient-to-l p-3 px-2 rounded bricolage-font border-2"
                           onClick={openAccountModal}
                           type="button"
                         >

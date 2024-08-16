@@ -21,7 +21,7 @@ const Navbar = ({ onWalletAddressUpdate }) => { // Forwarding the prop
         <div className="flex items-center">
           <h1 className="text-[#0C359E] text-2xl font-bold font-bowlby">Ales</h1>
         </div>
-        <div className="flex text-black items-center gap-6">
+        <div className="flex text-black items-center gap-6 poppins-regular">
           <a href="/" className="text-lg">Home</a>
           <a href="/profile" className="text-lg">Profile</a>
           <a href="/postarticle" className="text-lg">Publish</a>
